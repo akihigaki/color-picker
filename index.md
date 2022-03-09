@@ -1,37 +1,29 @@
-## Welcome to GitHub Pages
+## Module 2 - Interactive Devices: Color Picker
 
-You can use the [editor on GitHub](https://github.com/akihigaki/color-picker/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+[Video Demonstration](https://youtu.be/VrcGGNZTAoM)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Vision
+This project was to use a button, a potentiometer, and a joystick to physically interact with a device. Since the potentiometer and joystick represent three axes of motion, I decided to create a color picker where each axis is one of 3 values in RGB or HSV. I also wanted to create this for myself becuase I wanted to gain a more intuitive understanding of the HSV color model.
 
-### Markdown
+### General Idea
+I created a device where the potentiometer changed the values of one axis, and the two directions of the joystick changed the two values of the other axes. The button was used to switch between the RGB and HSV color models. This allows for a more interactive and helpful understanding of both color models and is able to easily compare between the two.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Setup: Hardware
+The sensors were soldered onto the ESP32 as follows:
+<ul>
+  <li> One pin of the button was connected to ground and the other to pin 22 on the ESP32. </li>
+  <li> The left pin of the potentiometer was connected to ground, the middle pin to pin 12, and the right pin to ground. </li>
+  <li> On the joystick, the ground pin was connected to ground, the 5V pin was connected to 3V, the VRx pin was connected to pin 27, and the VRy pin was connected to pin 26. </li>
+</ul>
 
-```markdown
-Syntax highlighted code block
+I housed everything in a plastic box, and drilled holes so that the sensors can poke outside of it. I also used hot glue to glue down the potentiometer so that it wouldn't move when I turned it.
 
-# Header 1
-## Header 2
-### Header 3
+### Setup: Software
+The software was done in the Arduino IDE and Javascript. The Arduino code on the device side simply reads the values of each sensor and sends them over a serial port to the computer. Then the javascript code takes the serial message and calculates the proper RGB/HSV values before displaying them though an HTML.
 
-- Bulleted
-- List
+The code is attached in [this repo](https://github.com/akihigaki/color-picker)
 
-1. Numbered
-2. List
+### Technical Issues
+The biggest technical issue that I faced was getting the data from the ESP32 to be read correctly in Javascript. The data was often fragmented and seemed unreliable. However, instead of thinking of the sensor values aggregated as a JSON, instead I parsed the string of each value individually, so some of the sensor values would get updated, even if other sensor values were not successfully sent. This allowed for much smoother data transfer between the two devices.
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/akihigaki/color-picker/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Hope you liked this project!
